@@ -1,239 +1,357 @@
-
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Book World</title>
+<title>Demo</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
   font-family:Arial,sans-serif;
-  background:radial-gradient(circle at top,#263b62,#090d1b 65%);
-  color:white;min-height:100vh;overflow-x:hidden
 }
-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:22px 8%;background:#10182bd9;
-  position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)
+
+body{
+  background:#0f1020;
+  color:white;
 }
-.logo{font-size:25px;font-weight:bold;color:#69e5ff}
-nav a{color:white;text-decoration:none;margin-left:24px}
-nav a:hover{color:#69e5ff}
-.hero{text-align:center;padding:75px 20px 45px}
-.hero h1{font-size:clamp(38px,7vw,68px);margin-bottom:15px}
-.hero h1 span{color:#69e5ff;text-shadow:0 0 25px #24c9ff}
-.hero p{color:#c2cce0;font-size:17px}
-.shop-btn{
-  display:inline-block;margin-top:25px;padding:14px 28px;
-  border-radius:30px;background:linear-gradient(90deg,#13c8e8,#7558ff);
-  color:white;text-decoration:none;font-weight:bold;
-  box-shadow:0 8px 25px #16bce966
+
+.container{
+  display:flex;
+  flex-direction:row-reverse;
+  min-height:100vh;
 }
-.shop-btn:hover{transform:translateY(-4px)}
-.section-title{text-align:center;font-size:32px;margin:35px 0}
-.books{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-  gap:35px;padding:20px 8% 70px
+
+.demo{
+  width:70%;
+  background:#111;
+  position:relative;
 }
-.book-card{
-  background:linear-gradient(145deg,#263957,#121b30);
-  border:1px solid #ffffff20;border-radius:18px;
-  padding:25px 18px;text-align:center;
-  perspective:1000px;transition:.4s;
-  box-shadow:0 15px 35px #0006
+
+iframe{
+  width:100%;
+  height:100vh;
+  border:none;
 }
-.book-card:hover{
-  transform:translateY(-12px) rotateY(-5deg) rotateX(5deg);
-  box-shadow:0 25px 45px #16c8ff35
+
+.right{
+  width:30%;
+  padding:30px 22px;
+  background:linear-gradient(180deg,#181a35,#0b0c18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow-y:auto;
 }
-.book{
-  width:145px;height:205px;margin:0 auto 22px;
-  position:relative;transform-style:preserve-3d;
-  transform:rotateY(-18deg);
-  transition:.5s;filter:drop-shadow(12px 15px 8px #0008)
+
+.box{
+  width:100%;
+  background:rgba(10,10,10,.88);
+  border:1px solid #FF8C2B;
+  border-radius:22px;
+  padding:26px 20px;
+  text-align:center;
+  box-shadow:0 0 35px rgba(255,140,43,.28);
 }
-.book-card:hover .book{transform:rotateY(0deg) scale(1.07)}
-.book-cover{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  padding:12px;text-align:center;
-  border-radius:3px 8px 8px 3px;
-  border-left:8px solid #ffffff35;
-  box-shadow:inset -5px 0 10px #0004;
+
+.badge{
+  display:inline-block;
+  background:#FF8C2B;
+  color:#fff;
+  padding:8px 18px;
+  border-radius:30px;
+  font-weight:800;
+  margin-bottom:16px;
+}
+
+h1{
+  font-size:34px;
+  color:#FF8C2B;
+  margin-bottom:10px;
+  text-transform:uppercase;
+}
+
+.sub{
+  font-size:17px;
+  line-height:1.5;
+  margin-bottom:22px;
+  color:#eee;
+}
+
+.features{
+  display:grid;
+  gap:12px;
+  margin:22px 0;
+}
+
+.feature{
+  background:linear-gradient(90deg,#1b1b1b,#2b2208);
+  border:1px solid rgba(255,170,70,.55);
+  padding:14px;
+  border-radius:14px;
+  font-size:17px;
+  font-weight:700;
+}
+
+.feature span{
+  color:#FF8C2B;
+}
+
+/* Signup Button */
+.signup-btn{
+  display:inline-block;
+  margin-top:8px;
+  padding:9px 16px;
+  background:#25D366;
+  color:#fff;
+  text-decoration:none;
+  border-radius:9px;
+  font-size:15px;
+  font-weight:800;
+  border:1px solid #1ebe5d;
+  transition:.3s;
+}
+
+.signup-btn:hover{
+  background:#1ebe5d;
+  transform:scale(1.03);
+}
+
+.website-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:16px;
+  font-size:14px;
   font-weight:bold;
-  background:linear-gradient(135deg,#f07848,#9d285c)
 }
-.book-cover.blue{background:linear-gradient(135deg,#23a9c7,#263c9b)}
-.book-cover.green{background:linear-gradient(135deg,#31b47a,#14544b)}
-.book-cover.purple{background:linear-gradient(135deg,#9864e9,#42246f)}
-.book-cover.gold{background:linear-gradient(135deg,#e8b84b,#9c4d21)}
-.book-cover small{font-size:10px;letter-spacing:2px;margin-bottom:15px}
-.book-cover strong{font-size:19px;line-height:1.2}
-.book-cover span{font-size:10px;margin-top:15px}
-.book-info h3{font-size:19px;margin-bottom:8px}
-.book-info p{color:#aab8d0;font-size:14px;margin-bottom:12px}
-.price{color:#69e5ff;font-size:19px;font-weight:bold}
-.add-btn{
-  border:0;background:#69dfff;color:#10182b;
-  padding:11px 20px;border-radius:22px;
-  font-weight:bold;margin-top:14px;cursor:pointer
+
+.website-row a{
+  text-decoration:none;
 }
-.add-btn:hover{background:white;transform:scale(1.06)}
-.cart{
-  position:fixed;right:22px;bottom:22px;
-  background:#69dfff;color:#10182b;
-  padding:15px 20px;border-radius:30px;
-  font-weight:bold;z-index:20;box-shadow:0 5px 25px #0008
+
+.website{
+  color:#25D366;
 }
-footer{text-align:center;padding:30px;background:#0b1222;color:#9eabc1}
-@media(max-width:600px){
-  header{padding:18px 5%;flex-wrap:wrap;gap:15px}
-  nav a{margin-left:10px;font-size:13px}
-  .books{padding-left:7%;padding-right:7%}
+
+.whatsapp-small{
+  color:#FF8C2B;
+}
+
+.cta{
+  display:block;
+  background:#25D366;
+  color:#fff;
+  text-decoration:none;
+  padding:17px;
+  border-radius:16px;
+  font-size:20px;
+  font-weight:900;
+  margin-top:22px;
+  box-shadow:0 8px 18px rgba(37,211,102,.35);
+  transition:.3s;
+}
+
+.cta:hover{
+  transform:scale(1.03);
+  background:#1ebe5d;
+}
+
+/* Floating Signup Button */
+.floating-signup{
+  position:absolute;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:50;
+  background:#FF8C2B;
+  color:#fff;
+  padding:12px 24px;
+  border-radius:8px;
+  font-size:18px;
+  font-weight:900;
+  border:3px solid #fff;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(255,140,43,0.6);
+  transition:.3s;
+  text-decoration:none;
+  display:inline-block;
+}
+
+.floating-signup:hover{
+  transform:translateX(-50%) scale(1.08);
+  background:#E66A1A;
+  box-shadow:0 12px 25px rgba(255,140,43,0.8);
+}
+
+.trust{
+  margin-top:16px;
+  color:#ccc;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.footer{
+  margin-top:18px;
+  font-size:12px;
+  color:#aaa;
+  line-height:1.5;
+}
+
+@media(max-width:768px){
+  .container{
+    flex-direction:column-reverse;
+  }
+
+  .demo,
+  .right{
+    width:100%;
+  }
+
+  iframe{
+    height:500px;
+  }
+
+  .right{
+    padding:20px;
+  }
+}
+
+@media(max-width:480px){
+  h1{
+    font-size:28px;
+  }
+
+  .sub{
+    font-size:16px;
+  }
+
+  .feature{
+    font-size:16px;
+    padding:12px;
+  }
+
+  .signup-btn{
+    font-size:14px;
+    padding:8px 13px;
+  }
+
+  .cta{
+    font-size:18px;
+    padding:15px;
+  }
+
+  .website-row{
+    flex-direction:column;
+    gap:8px;
+  }
 }
 </style>
+
 </head>
+
 <body>
 
-<header>
-  <div class="logo">📚 3D BOOK WORLD</div>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#books">Books</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</header>
+<div class="container">
 
-<section class="hero" id="home">
-  <h1>Enter the <span>3D Book World</span></h1>
-  <p>Discover amazing stories in a whole new dimension.</p>
-  <a class="shop-btn" href="#books">Explore Books ✨</a>
-</section>
-
-<h2 class="section-title" id="books">🔥 Featured Books</h2>
-
-<section class="books">
-  <div class="book-card">
-    <div class="book">
-      <div class="book-cover">
-        <small>THE BESTSELLER</small>
-        <strong>MAGIC<br>WORLD</strong>
-        <span>A JOURNEY BEGINS</span>
-      </div>
-    </div>
-    <div class="book-info">
-      <h3>Magic World</h3><p>Fantasy & Adventure</p>
-      <div class="price">$19.99</div>
-      <button class="add-btn" onclick="addToCart('Magic World',19.99)">Add to Cart</button>
-    </div>
+  <div class="demo">
+    <a href="https://icecric.com/clk?src=27705d9eff" target="_blank" rel="noopener noreferrer" class="floating-signup">🔥 CLICK ON SIGNUP 🔥</a>
+    <iframe src="https://icecric.com/clk?src=27705d9eff"></iframe>
   </div>
 
-  <div class="book-card">
-    <div class="book">
-      <div class="book-cover blue">
-        <small>EXPLORE YOUR MIND</small>
-        <strong>THE<br>FUTURE</strong>
-        <span>THINK BIGGER</span>
-      </div>
+  <div class="right">
+    <div class="box">
+
+```
+  <div class="badge">AUTO WEBSITE</div>
+
+  <h1>Get Your ID Now</h1>
+
+  <p class="sub">
+    Fast auto website service with easy deposit support.
+    New users can start quickly through WhatsApp.
+  </p>
+
+  <div class="features">www.icecric.com
+
+    <div class="feature">
+      Minimum Deposit: <span>₹100 Only</span>
     </div>
-    <div class="book-info">
-      <h3>The Future</h3><p>Science & Technology</p>
-      <div class="price">$24.50</div>
-      <button class="add-btn" onclick="addToCart('The Future',24.50)">Add to Cart</button>
+
+    <div class="feature">
+      Welcome Bonus: <span>10%</span>
     </div>
+
+    <div class="feature">
+      Auto Website Support:
+      <a
+        class="signup-btn"
+        href="https://icecric.com/clk?src=27705d9eff"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Click on Signup
+      </a>
+    </div>
+
+    <div class="feature">
+      Quick Help:
+      <span>Deposit &amp; Withdrawal Support</span>
+    </div>
+
   </div>
 
-  <div class="book-card">
-    <div class="book">
-      <div class="book-cover green">
-        <small>LIVE YOUR LIFE</small>
-        <strong>SUCCESS<br>STORY</strong>
-        <span>NEVER GIVE UP</span>
-      </div>
-    </div>
-    <div class="book-info">
-      <h3>Success Story</h3><p>Motivation & Business</p>
-      <div class="price">$15.99</div>
-      <button class="add-btn" onclick="addToCart('Success Story',15.99)">Add to Cart</button>
-    </div>
+  <div class="website-row">
+
+    <a
+      class="website"
+      href="https://icecric.com/clk?src=27705d9eff"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      🌐 www.icecric.com
+    </a>
+
+    <a
+      class="whatsapp-small"
+      href="https://wa.me/+447542915762"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      💬 WhatsApp
+    </a>
+
   </div>
 
-  <div class="book-card">
-    <div class="book">
-      <div class="book-cover purple">
-        <small>UNLOCK THE MYSTERY</small>
-        <strong>DARK<br>SECRETS</strong>
-        <span>A MYSTERY NOVEL</span>
-      </div>
-    </div>
-    <div class="book-info">
-      <h3>Dark Secrets</h3><p>Mystery & Thriller</p>
-      <div class="price">$18.75</div>
-      <button class="add-btn" onclick="addToCart('Dark Secrets',18.75)">Add to Cart</button>
-    </div>
+  <a
+    class="cta"
+    href="https://wa.me/+447542915762?text=Hello%20I%20want%20new%20icecric%20ID"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    📲 WhatsApp Now
+  </a>
+
+  <p class="trust">
+    ✅ Trusted icecric Support<br>
+    ✅ Simple Process<br>
+    ✅ Fast Response
+  </p>
+
+  <div class="footer">
+    18+ Only | Play Responsibly | Follow Your Local Laws | T&amp;C Apply
   </div>
 
-  <div class="book-card">
-    <div class="book">
-      <div class="book-cover gold">
-        <small>AN EPIC ADVENTURE</small>
-        <strong>GOLDEN<br>KINGDOM</strong>
-        <span>DISCOVER THE UNKNOWN</span>
-      </div>
-    </div>
-    <div class="book-info">
-      <h3>Golden Kingdom</h3><p>History & Adventure</p>
-      <div class="price">$21.00</div>
-      <button class="add-btn" onclick="addToCart('Golden Kingdom',21)">Add to Cart</button>
-    </div>
+</div>
+```
+
   </div>
 
-  <div class="book-card">
-    <div class="book">
-      <div class="book-cover blue">
-        <small>THE ART OF LIVING</small>
-        <strong>NEW<br>BEGINNING</strong>
-        <span>FIND YOUR PATH</span>
-      </div>
-    </div>
-    <div class="book-info">
-      <h3>New Beginning</h3><p>Personal Development</p>
-      <div class="price">$16.50</div>
-      <button class="add-btn" onclick="addToCart('New Beginning',16.50)">Add to Cart</button>
-    </div>
-  </div>
-</section>
-
-<div class="cart" onclick="showCart()">🛒 Cart: <span id="count">0</span> | $<span id="total">0.00</span></div>
-
-<footer id="contact">
-  <p>© 2026 3D Book World | Made for Book Lovers ❤️</p>
-</footer>
-
-<script>
-let cart = [];
-function addToCart(name,price){
-  cart.push({name,price});
-  updateCart();
-  alert(name + " added to your cart!");
-}
-function updateCart(){
-  document.getElementById("count").textContent=cart.length;
-  document.getElementById("total").textContent=
-    cart.reduce((sum,item)=>sum+item.price,0).toFixed(2);
-}
-function showCart(){
-  if(cart.length===0){
-    alert("Your cart is empty!");
-    return;
-  }
-  let details=cart.map(item=>item.name+" - $"+item.price.toFixed(2)).join("\n");
-  let total=cart.reduce((sum,item)=>sum+item.price,0);
-  alert("YOUR CART\n\n"+details+"\n\nTotal: $"+total.toFixed(2));
-}
-</script>
+</div>
 
 </body>
 </html>
